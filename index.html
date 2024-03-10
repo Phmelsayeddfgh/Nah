@@ -38,6 +38,22 @@
     button:hover {
       background-color: #45a049;
     }
+
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
   </style>
 </head>
 <body>
@@ -59,6 +75,19 @@
 
     <button type="button" onclick="addEmployee()">Add Employee</button>
   </form>
+
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contract Start Date</th>
+        <th>Contract End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Table rows will be dynamically added here -->
+    </tbody>
+  </table>
 
   <script>
     function addEmployee() {
@@ -90,6 +119,16 @@
         // You can add logic here to send WhatsApp message using a third-party service like Twilio
         // sendWhatsAppMessage(`Contract for ${name} is due in 5 days!`);
       }
+
+      // Add the employee details to the table
+      const table = document.getElementById('employeeTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow(table.rows.length);
+      const cell1 = newRow.insertCell(0);
+      const cell2 = newRow.insertCell(1);
+      const cell3 = newRow.insertCell(2);
+      cell1.innerHTML = name;
+      cell2.innerHTML = startDate;
+      cell3.innerHTML = endDate;
 
       // After processing, you might want to clear the form
       document.getElementById('name').value = '';
