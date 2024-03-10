@@ -54,6 +54,9 @@
     <label for="endDate">Contract End Date:</label>
     <input type="date" id="endDate" required>
 
+    <label for="sendTelegram">Send Telegram Message:</label>
+    <input type="checkbox" id="sendTelegram">
+
     <button type="button" onclick="addEmployee()">Add Employee</button>
   </form>
 
@@ -63,6 +66,7 @@
       const name = document.getElementById('name').value;
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
+      const sendTelegramCheckbox = document.getElementById('sendTelegram');
 
       // Validate input
       if (!name || !startDate || !endDate) {
@@ -81,7 +85,7 @@
 
       const contractDueDate = new Date(endDate);
 
-      if (contractDueDate.getTime() <= fiveDaysAhead.getTime()) {
+      if (contractDueDate.getTime() <= fiveDaysAhead.getTime() && sendTelegramCheckbox.checked) {
         sendTelegramMessage(`Contract for ${name} is due in 5 days!`);
         // You can add logic here to send WhatsApp message using a third-party service like Twilio
         // sendWhatsAppMessage(`Contract for ${name} is due in 5 days!`);
@@ -91,6 +95,7 @@
       document.getElementById('name').value = '';
       document.getElementById('startDate').value = '';
       document.getElementById('endDate').value = '';
+      sendTelegramCheckbox.checked = false; // Reset the checkbox
     }
 
     function sendTelegramMessage(message) {
