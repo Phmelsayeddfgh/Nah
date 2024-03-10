@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Contracts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Employee Contracts</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contract Start Date</th>
+        <th>Contract End Date</th>
+      </tr>
+    </thead>
+    <tbody id="employeeTable">
+      <!-- Table rows will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <button onclick="addEmployee()">Add Employee</button>
+
+  <script>
+    function addEmployee() {
+      // Add logic to collect employee details and append a new row to the table
+      // You may use prompt() or other UI elements for user input
+
+      // After adding an employee, call a function to send a Telegram alert
+      sendTelegramAlert("New employee added!");
+    }
+
+    function sendTelegramAlert(message) {
+      // Replace 'YOUR_BOT_TOKEN' and 'YOUR_CHAT_ID' with your actual bot token and chat ID
+      const botToken = 'YOUR_BOT_TOKEN';
+      const chatId = 'YOUR_CHAT_ID';
+      const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      // You may need to set up a server to securely handle this API call and keep your token secret
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error sending Telegram message:', error));
+    }
+  </script>
+
+</body>
+</html>
