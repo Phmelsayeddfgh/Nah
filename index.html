@@ -82,6 +82,7 @@
         <th>Name</th>
         <th>Contract Start Date</th>
         <th>Contract End Date</th>
+        <th>Send Telegram Message</th>
       </tr>
     </thead>
     <tbody>
@@ -126,9 +127,11 @@
       const cell1 = newRow.insertCell(0);
       const cell2 = newRow.insertCell(1);
       const cell3 = newRow.insertCell(2);
+      const cell4 = newRow.insertCell(3);
       cell1.innerHTML = name;
       cell2.innerHTML = startDate;
       cell3.innerHTML = endDate;
+      cell4.innerHTML = sendTelegramCheckbox.checked ? 'Yes' : 'No';
 
       // After processing, you might want to clear the form
       document.getElementById('name').value = '';
@@ -161,3 +164,4 @@
 
 </body>
 </html>
+``
