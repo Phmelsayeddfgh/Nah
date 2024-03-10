@@ -46,6 +46,12 @@
   <button onclick="addEmployee()">Add Employee</button>
 
   <script>
+    // Load existing data from local storage on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedData = JSON.parse(localStorage.getItem('employeeData')) || [];
+      renderEmployeeData(savedData);
+    });
+
     function addEmployee() {
       // Collect employee details using prompt (replace with your UI logic)
       const name = prompt("Enter employee name:");
@@ -65,8 +71,31 @@
       // Append the new row to the table
       document.getElementById("employeeTable").appendChild(newRow);
 
+      // Save the added employee data to local storage
+      const employeeData = JSON.parse(localStorage.getItem('employeeData')) || [];
+      employeeData.push({ name, startDate, endDate });
+      localStorage.setItem('employeeData', JSON.stringify(employeeData));
+
       // After adding an employee, call a function to send a Telegram alert
       sendTelegramAlert("New employee added!");
+    }
+
+    function renderEmployeeData(data) {
+      const tableBody = document.getElementById("employeeTable");
+
+      // Clear existing rows
+      tableBody.innerHTML = '';
+
+      // Populate table with employee data
+      data.forEach(employee => {
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${employee.name}</td>
+          <td>${employee.startDate}</td>
+          <td>${employee.endDate}</td>
+        `;
+        tableBody.appendChild(newRow);
+      });
     }
 
     function sendTelegramAlert(message) {
