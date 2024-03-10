@@ -10,19 +10,33 @@
       margin: 20px;
     }
 
-    table {
-      border-collapse: collapse;
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select {
       width: 100%;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
       padding: 8px;
-      text-align: left;
+      margin-bottom: 16px;
+      box-sizing: border-box;
     }
 
-    th {
-      background-color: #f2f2f2;
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -30,95 +44,41 @@
 
   <h2>Employee Contracts</h2>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Contract Start Date</th>
-        <th>Contract End Date</th>
-      </tr>
-    </thead>
-    <tbody id="employeeTable">
-      <!-- Table rows will be dynamically added here -->
-    </tbody>
-  </table>
+  <form id="employeeForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
 
-  <button onclick="addEmployee()">Add Employee</button>
+    <label for="startDate">Contract Start Date:</label>
+    <input type="date" id="startDate" required>
+
+    <label for="endDate">Contract End Date:</label>
+    <input type="date" id="endDate" required>
+
+    <button type="button" onclick="addEmployee()">Add Employee</button>
+  </form>
 
   <script>
-    // Load existing data from local storage on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedData = JSON.parse(localStorage.getItem('employeeData')) || [];
-      renderEmployeeData(savedData);
-    });
-
     function addEmployee() {
-      // Collect employee details using prompt (replace with your UI logic)
-      const name = prompt("Enter employee name:");
-      const startDate = prompt("Select contract start date:");
-      const endDate = prompt("Select contract end date:");
+      // Collect employee details from the form
+      const name = document.getElementById('name').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
 
-      // Create a new row
-      const newRow = document.createElement("tr");
+      // Validate input
+      if (!name || !startDate || !endDate) {
+        alert("Please fill in all fields");
+        return;
+      }
 
-      // Populate the row with employee details
-      newRow.innerHTML = `
-        <td>${name}</td>
-        <td>${startDate}</td>
-        <td>${endDate}</td>
-      `;
+      // Process the employee details (you can customize this part)
+      console.log("Name:", name);
+      console.log("Contract Start Date:", startDate);
+      console.log("Contract End Date:", endDate);
 
-      // Append the new row to the table
-      document.getElementById("employeeTable").appendChild(newRow);
-
-      // Save the added employee data to local storage
-      const employeeData = JSON.parse(localStorage.getItem('employeeData')) || [];
-      employeeData.push({ name, startDate, endDate });
-      localStorage.setItem('employeeData', JSON.stringify(employeeData));
-
-      // After adding an employee, call a function to send a Telegram alert
-      sendTelegramAlert("New employee added!");
-    }
-
-    function renderEmployeeData(data) {
-      const tableBody = document.getElementById("employeeTable");
-
-      // Clear existing rows
-      tableBody.innerHTML = '';
-
-      // Populate table with employee data
-      data.forEach(employee => {
-        const newRow = document.createElement("tr");
-        newRow.innerHTML = `
-          <td>${employee.name}</td>
-          <td>${employee.startDate}</td>
-          <td>${employee.endDate}</td>
-        `;
-        tableBody.appendChild(newRow);
-      });
-    }
-
-    function sendTelegramAlert(message) {
-      // Replace 'YOUR_BOT_TOKEN' and 'YOUR_CHAT_ID' with your actual bot token and chat ID
-      const botToken = 'YOUR_BOT_TOKEN';
-      const chatId = 'YOUR_CHAT_ID';
-      const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-      // You may need to set up a server to securely handle this API call and keep your token secret
-
-      fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-        }),
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error sending Telegram message:', error));
+      // After processing, you might want to clear the form
+      document.getElementById('name').value = '';
+      document.getElementById('startDate').value = '';
+      document.getElementById('endDate').value = '';
     }
   </script>
 
